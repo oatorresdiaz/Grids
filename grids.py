@@ -6,15 +6,37 @@ import sys
 reserved = {
    'create' : 'CREATE',
    'destroy' : 'DESTROY',
+    'window' : 'WINDOW',
+    'grid' : 'GRID',
+    'sprite' : 'SPRITE'
 }
 
 tokens = [
 
-    'NAME'
+    'NAME',
+    'LEFTPAR',
+    'RIGHTPAR',
+    'COMMA',
+    'INT',
+    'FLOAT'
 
 ] + list(reserved.values())
 
+t_LEFTPAR = r'\('
+t_RIGHTPAR = r'\)'
+t_COMMA = r'\,'
+
 t_ignore = ' '
+
+def t_FLOAT(t):
+    r'\d+\.\d+'
+    t.value = float(t.value)
+    return t
+
+def t_INT(t):
+    r'\d+'
+    t.value = int(t.value)
+    return t
 
 def t_NAME(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
@@ -38,13 +60,15 @@ def p_grids(p):
 
 def p_object(p):
     '''
-    object : NAME
+    object : WINDOW
+    | GRID
+    | SPRITE
     '''
     p[0] = p[1] #Here we know what type of object is created. Modify later.
 
 def p_create(p):
     '''
-    create : CREATE object NAME
+    create : CREATE object NAME parameters
     '''
     p[0] = (p[1], p[2], p[3])
 
@@ -53,6 +77,30 @@ def p_destroy(p):
     destroy : DESTROY object NAME
     '''
     p[0] = (p[1], p[2], p[3])
+
+def p_parameters(p):
+    '''
+    parameters : LEFTPAR parameter RIGHTPAR
+    | LEFTPAR parameter COMMA parameter RIGHTPAR
+    | LEFTPAR parameter COMMA parameter COMMA parameter RIGHTPAR
+    | empty
+    '''
+    if len(p) == 3:
+        p[0] = p[1]
+    elif len(p) == 6:
+        p[0] = (p[2], p[4])
+    elif len(p) == 8:
+        p[0] = (p[2], p[4], p[6])
+    else:
+        p[0] = None
+
+def p_parameter(p):
+    '''
+    parameter : INT
+    | FLOAT
+    | NAME
+    '''
+    p[0] = p[1]
 
 def p_error(p):
     print("Syntax error found!")
