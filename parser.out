@@ -3,45 +3,49 @@ Created by PLY version 3.10 (http://www.dabeaz.com/ply)
 Grammar
 
 Rule 0     S' -> grids
-Rule 1     grids -> expression
-Rule 2     grids -> empty
-Rule 3     object -> NAME
-Rule 4     expression -> CREATE object NAME
-Rule 5     expression -> DESTROY object NAME
-Rule 6     empty -> <empty>
+Rule 1     grids -> create
+Rule 2     grids -> destroy
+Rule 3     grids -> empty
+Rule 4     object -> NAME
+Rule 5     create -> CREATE object NAME
+Rule 6     destroy -> DESTROY object NAME
+Rule 7     empty -> <empty>
 
 Terminals, with rules where they appear
 
-CREATE               : 4
-DESTROY              : 5
-NAME                 : 3 4 5
+CREATE               : 5
+DESTROY              : 6
+NAME                 : 4 5 6
 error                : 
 
 Nonterminals, with rules where they appear
 
-empty                : 2
-expression           : 1
+create               : 1
+destroy              : 2
+empty                : 3
 grids                : 0
-object               : 4 5
+object               : 5 6
 
 Parsing method: LALR
 
 state 0
 
     (0) S' -> . grids
-    (1) grids -> . expression
-    (2) grids -> . empty
-    (4) expression -> . CREATE object NAME
-    (5) expression -> . DESTROY object NAME
-    (6) empty -> .
+    (1) grids -> . create
+    (2) grids -> . destroy
+    (3) grids -> . empty
+    (5) create -> . CREATE object NAME
+    (6) destroy -> . DESTROY object NAME
+    (7) empty -> .
 
-    CREATE          shift and go to state 4
-    DESTROY         shift and go to state 5
-    $end            reduce using rule 6 (empty -> .)
+    CREATE          shift and go to state 5
+    DESTROY         shift and go to state 6
+    $end            reduce using rule 7 (empty -> .)
 
     grids                          shift and go to state 1
-    expression                     shift and go to state 2
-    empty                          shift and go to state 3
+    create                         shift and go to state 2
+    destroy                        shift and go to state 3
+    empty                          shift and go to state 4
 
 state 1
 
@@ -51,67 +55,74 @@ state 1
 
 state 2
 
-    (1) grids -> expression .
+    (1) grids -> create .
 
-    $end            reduce using rule 1 (grids -> expression .)
+    $end            reduce using rule 1 (grids -> create .)
 
 
 state 3
 
-    (2) grids -> empty .
+    (2) grids -> destroy .
 
-    $end            reduce using rule 2 (grids -> empty .)
+    $end            reduce using rule 2 (grids -> destroy .)
 
 
 state 4
 
-    (4) expression -> CREATE . object NAME
-    (3) object -> . NAME
+    (3) grids -> empty .
 
-    NAME            shift and go to state 7
+    $end            reduce using rule 3 (grids -> empty .)
 
-    object                         shift and go to state 6
 
 state 5
 
-    (5) expression -> DESTROY . object NAME
-    (3) object -> . NAME
+    (5) create -> CREATE . object NAME
+    (4) object -> . NAME
 
-    NAME            shift and go to state 7
+    NAME            shift and go to state 8
 
-    object                         shift and go to state 8
+    object                         shift and go to state 7
 
 state 6
 
-    (4) expression -> CREATE object . NAME
+    (6) destroy -> DESTROY . object NAME
+    (4) object -> . NAME
 
-    NAME            shift and go to state 9
+    NAME            shift and go to state 8
 
+    object                         shift and go to state 9
 
 state 7
 
-    (3) object -> NAME .
-
-    NAME            reduce using rule 3 (object -> NAME .)
-
-
-state 8
-
-    (5) expression -> DESTROY object . NAME
+    (5) create -> CREATE object . NAME
 
     NAME            shift and go to state 10
 
 
+state 8
+
+    (4) object -> NAME .
+
+    NAME            reduce using rule 4 (object -> NAME .)
+
+
 state 9
 
-    (4) expression -> CREATE object NAME .
+    (6) destroy -> DESTROY object . NAME
 
-    $end            reduce using rule 4 (expression -> CREATE object NAME .)
+    NAME            shift and go to state 11
 
 
 state 10
 
-    (5) expression -> DESTROY object NAME .
+    (5) create -> CREATE object NAME .
 
-    $end            reduce using rule 5 (expression -> DESTROY object NAME .)
+    $end            reduce using rule 5 (create -> CREATE object NAME .)
+
+
+state 11
+
+    (6) destroy -> DESTROY object NAME .
+
+    $end            reduce using rule 6 (destroy -> DESTROY object NAME .)
 
