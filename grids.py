@@ -1,12 +1,12 @@
 import ply.lex as lex
 import ply.yacc as yacc
-import window.window as window
+import handlers.window as Window
 import sys
 
 reserved = {
    'create' : 'CREATE',
    'destroy' : 'DESTROY',
-    'window' : 'WINDOW',
+    'handlers' : 'WINDOW',
     'grid' : 'GRID',
     'sprite' : 'SPRITE'
 }
@@ -121,6 +121,7 @@ def run(p):
         if p[0] == 'create':
             env[p[2]] = p[1]
             print(env)
+            window = Window.Window('Grids', 500, 500)
             return window.create()
         elif p[0] == 'destroy':
             if p[0] not in env:
