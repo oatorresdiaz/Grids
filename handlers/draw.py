@@ -1,9 +1,7 @@
 from tkinter import *
-from PIL import Image, ImageTk
 import handlers.window as Window
 import handlers.grid as Grid
 import handlers.sprite as Sprite
-import sys
 
 class Draw:
 
@@ -26,33 +24,46 @@ class Draw:
         else:
             print("ERROR: Cannot draw on that position because it does not exist on the grid.")
 
+    def drawOnEachCellInRow(self, row, sprite):
+        if self.doesRowExist(row):
+            for cell in range(0, self.grid.getHorizontalSize()):
+                self.draw(sprite, cell, row)
+        else:
+            print("ERROR: Cannot draw on that row because it does not exist in the grid.")
+
+    def drawOnEachCellInColumn(self, column, sprite):
+        if self.doesColumnExist(column):
+            for cell in range(0, self.grid.getVerticalSize()):
+                self.draw(sprite, column, cell)
+        else:
+            print("ERROR: Cannot draw on that row because it does not exist in the grid.")
+
     def getXCoordinate(self, x):
-        cellSize = self.window.getWidth()/self.grid.getHorizontalSize()
+        cellSize = self.getCellWidth()
         return cellSize/2 + cellSize*x
 
     def getYCoordinate(self, y):
-        cellSize = self.window.getHeight()/self.grid.getVerticalSize()
+        cellSize = self.getCellHeight()
         return cellSize/2 + cellSize*y
 
+    def doesRowExist(self, row):
+        if row >= 0 and row < self.grid.getVerticalSize():
+            return True
+        return False
+
+    def doesColumnExist(self, column):
+        if column >= 0 and column < self.grid.getHorizontalSize():
+            return True
+        return False
+
     def doesCoordinateExists(self, xCoord, yCoord):
-        if yCoord >= 0 and yCoord < self.grid.getVerticalSize():
-            if xCoord >= 0 and xCoord < self.grid.getHorizontalSize():
+        if self.doesRowExist(yCoord):
+            if self.doesColumnExist(xCoord):
                 return True
         return False
 
+    def getCellWidth(self):
+        return self.window.getWidth() / self.grid.getHorizontalSize()
 
-#FOR TESTING. ERASE AFTER USE.
-window = Window.Window('Window1', 500, 500)
-grid = Grid.Grid(3, 3)
-grid.create()
-marioImagePath = "/Users/orlandotorres/PycharmProjects/Grids/images/mario.png"
-godzillaImagePath = "/Users/orlandotorres/PycharmProjects/Grids/images/godzilla.png"
-mario = Sprite.Sprite(marioImagePath, 23, 25)
-mario.create()
-godzilla = Sprite.Sprite(godzillaImagePath, 73, 48)
-godzilla.create()
-draw = Draw(window, grid)
-draw.draw(mario, 0, 0)
-draw.draw(godzilla, 1, 1)
-draw.draw(mario, 2, 2)
-window.create()
+    def getCellHeight(self):
+        return self.window.getHeight() / self.grid.getVerticalSize()
