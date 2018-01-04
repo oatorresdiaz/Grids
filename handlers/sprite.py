@@ -7,12 +7,14 @@ class Sprite:
     xCoord = 0 #Initial value
     yCoord = 0 #Initial value
 
-    def __init__(self, imagePath):
+    def __init__(self, imagePath, width, height):
         self.imagePath = imagePath
+        self.width = width
+        self.height = height
 
     def create(self):
-        image = Image.open(self.imagePath)
-        self.image = ImageTk.PhotoImage(image)
+        image_file = Image.open(self.imagePath).resize((self.width, self.height))
+        self.image = ImageTk.PhotoImage(image_file)
 
     def getImage(self):
         return self.image

@@ -45,11 +45,14 @@ class Draw:
 window = Window.Window('Window1', 500, 500)
 grid = Grid.Grid(3, 3)
 grid.create()
-imagePath = "/Users/orlandotorres/PycharmProjects/Grids/images/mario.png"
-sprite = Sprite.Sprite(imagePath)
-sprite.create()
+marioImagePath = "/Users/orlandotorres/PycharmProjects/Grids/images/mario.png"
+godzillaImagePath = "/Users/orlandotorres/PycharmProjects/Grids/images/godzilla.png"
+mario = Sprite.Sprite(marioImagePath, 23, 25)
+mario.create()
+godzilla = Sprite.Sprite(godzillaImagePath, 73, 48)
+godzilla.create()
 draw = Draw(window, grid)
-draw.draw(sprite, 0, 0)
-draw.draw(sprite, 1, 1)
-draw.draw(sprite, 2, 2)
+draw.draw(mario, 0, 0)
+draw.draw(godzilla, 1, 1)
+draw.draw(mario, 2, 2)
 window.create()
