@@ -1,46 +1,54 @@
 import ply.lex as lex
 import ply.yacc as yacc
 import handlers.window as Window
+import handlers.draw as Draw
+import handlers.sprite as Sprite
+import handlers.grid as Grid
 import sys
 
 reserved = {
-   'create' : 'CREATE',
-   'destroy' : 'DESTROY',
-    'handlers' : 'WINDOW',
-    'grid' : 'GRID',
-    'sprite' : 'SPRITE'
+    'Create' : 'CREATE',
+    'Destroy' : 'DESTROY',
+    'Window' : 'WINDOW',
+    'Grid' : 'GRID',
+    'Sprite' : 'SPRITE',
+    'Draw' : 'DRAW'
 }
 
 tokens = [
 
-    'NAME',
-    'LEFTPAR',
-    'RIGHTPAR',
+    'LP',
+    'RP',
     'COMMA',
     'INT',
-    'FLOAT'
+    'FLOAT',
+    'STRING'
 
 ] + list(reserved.values())
 
-t_LEFTPAR = r'\('
-t_RIGHTPAR = r'\)'
+t_LP = r'\('
+t_RP = r'\)'
 t_COMMA = r'\,'
 
 t_ignore = ' '
-
-def t_FLOAT(t):
-    r'\d+\.\d+'
-    t.value = float(t.value)
-    return t
 
 def t_INT(t):
     r'\d+'
     t.value = int(t.value)
     return t
 
-def t_NAME(t):
-    r'[a-zA-Z_][a-zA-Z_0-9]*'
-    t.type = reserved.get(t.value, 'NAME') #checks for reserved words
+def t_FLOAT(t):
+    r'\d+\.\d+'
+    t.value = float(t.value)
+    return t
+
+def t_STRING(t):
+    r'[a-z]+\.[a-z]+'
+    return t
+
+def t_ID(t):
+    r'[A-Z_][a-zA-Z_0-9]*'
+    t.type = reserved.get(t.value,'ID')    # Check for reserved words
     return t
 
 def t_error(t):
@@ -50,9 +58,16 @@ def t_error(t):
 lexer = lex.lex()
 
 
-def p_grids(p):
+#------------------------------------------------------------------
+
+
+def p_error(p):
+    print(p)
+    print("Syntax error found!")
+
+def p_execute(p):
     '''
-    grids : create
+    execute : create
     | destroy
     | empty
     '''
@@ -63,30 +78,31 @@ def p_object(p):
     object : WINDOW
     | GRID
     | SPRITE
+    | DRAW
     '''
     p[0] = p[1] #Here we know what type of object is created. Modify later.
 
 def p_create(p):
     '''
-    create : CREATE object NAME parameters
+    create : CREATE object parameters
     '''
     p[0] = (p[1], p[2], p[3])
 
 def p_destroy(p):
     '''
-    destroy : DESTROY object NAME
+    destroy : DESTROY object
     '''
-    p[0] = (p[1], p[2], p[3])
+    p[0] = (p[1], p[2])
 
 def p_parameters(p):
     '''
-    parameters : LEFTPAR parameter RIGHTPAR
-    | LEFTPAR parameter COMMA parameter RIGHTPAR
-    | LEFTPAR parameter COMMA parameter COMMA parameter RIGHTPAR
+    parameters : LP parameter RP
+    | LP parameter COMMA parameter RP
+    | LP parameter COMMA parameter COMMA parameter RP
     | empty
     '''
-    if len(p) == 3:
-        p[0] = p[1]
+    if len(p) == 4:
+        p[0] = p[2]
     elif len(p) == 6:
         p[0] = (p[2], p[4])
     elif len(p) == 8:
@@ -98,12 +114,9 @@ def p_parameter(p):
     '''
     parameter : INT
     | FLOAT
-    | NAME
+    | STRING
     '''
     p[0] = p[1]
-
-def p_error(p):
-    print("Syntax error found!")
 
 def p_empty(p):
     '''
@@ -118,17 +131,34 @@ env = {}
 def run(p):
     global env
     if type(p) == tuple:
-        if p[0] == 'create':
-            env[p[2]] = p[1]
-            print(env)
-            window = Window.Window('Grids', 500, 500)
-            return window.create()
-        elif p[0] == 'destroy':
-            if p[0] not in env:
-                return 'Undeclared variable found!'
-            else:
-                env.pop(p[2])
-                print(env)
+        if p[0] == 'Create':
+            if p[1] == 'Window':
+                 window = Window.Window("w1", p[2][0], p[2][1])
+                 env['Window'] = window
+
+            if p[1] == 'Grid':
+                grid = Grid.Grid(p[2][0], p[2][1])
+                grid.create()
+                env['Grid'] = grid
+
+            if p[1] == 'Sprite':
+                sprite = Sprite.Sprite(p[2][0], p[2][1], p[2][2])
+                sprite.create()
+                env['Sprite'] = sprite
+
+            if p[1] == 'Draw':
+                window = env['Window']
+                draw = Draw.Draw(window, env['Grid'])
+                draw.draw(env['Sprite'], p[2][1], p[2][0])
+                window.create()
+
+        elif p[0] == 'Destroy':
+            pass
+            # if p[0] not in env:
+            #     return 'Undeclared variable found!'
+            # else:
+            #     env.pop(p[2])
+            #     print(env)
     else:
         return p
 

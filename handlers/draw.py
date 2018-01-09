@@ -19,7 +19,7 @@ class Draw:
             yCoord = self.getYCoordinate(y)
             sprite.setPosition(xCoord, yCoord)
             self.sprites.append(sprite)
-            self.graphic.create_image(xCoord, yCoord, image=self.sprites[len(self.sprites) -1].getImage())
+            self.graphic.create_image(xCoord, yCoord, image=sprite.getImage())
             self.graphic.pack(fill=BOTH, expand=1)
         else:
             print("ERROR: Cannot draw on that position because it does not exist on the grid.")
@@ -36,7 +36,7 @@ class Draw:
             for cell in range(0, self.grid.getVerticalSize()):
                 self.draw(sprite, column, cell)
         else:
-            print("ERROR: Cannot draw on that row because it does not exist in the grid.")
+            print("ERROR: Cannot draw on that column because it does not exist in the grid.")
 
     def getXCoordinate(self, x):
         cellSize = self.getCellWidth()

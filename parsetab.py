@@ -5,9 +5,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'NAME LEFTPAR RIGHTPAR COMMA INT FLOAT CREATE DESTROY WINDOW GRID SPRITE\n    grids : create\n    | destroy\n    | empty\n    \n    object : WINDOW\n    | GRID\n    | SPRITE\n    \n    create : CREATE object NAME parameters\n    \n    destroy : DESTROY object NAME\n    \n    parameters : LEFTPAR parameter RIGHTPAR\n    | LEFTPAR parameter COMMA parameter RIGHTPAR\n    | LEFTPAR parameter COMMA parameter COMMA parameter RIGHTPAR\n    | empty\n    \n    parameter : INT\n    | FLOAT\n    | NAME\n    \n    empty :\n    '
+_lr_signature = 'LP RP COMMA INT FLOAT STRING CREATE DESTROY WINDOW GRID SPRITE DRAW\n    execute : create\n    | destroy\n    | empty\n    \n    object : WINDOW\n    | GRID\n    | SPRITE\n    | DRAW\n    \n    create : CREATE object parameters\n    \n    destroy : DESTROY object\n    \n    parameters : LP parameter RP\n    | LP parameter COMMA parameter RP\n    | LP parameter COMMA parameter COMMA parameter RP\n    | empty\n    \n    parameter : INT\n    | FLOAT\n    | STRING\n    \n    empty :\n    '
     
-_lr_action_items = {'CREATE':([0,],[5,]),'DESTROY':([0,],[6,]),'$end':([0,1,2,3,4,12,13,14,16,21,25,27,],[-16,0,-1,-2,-3,-16,-8,-7,-12,-9,-10,-11,]),'WINDOW':([5,6,],[8,8,]),'GRID':([5,6,],[9,9,]),'SPRITE':([5,6,],[10,10,]),'NAME':([7,8,9,10,11,15,22,24,],[12,-4,-5,-6,13,20,20,20,]),'LEFTPAR':([12,],[15,]),'INT':([15,22,24,],[18,18,18,]),'FLOAT':([15,22,24,],[19,19,19,]),'RIGHTPAR':([17,18,19,20,23,26,],[21,-13,-14,-15,25,27,]),'COMMA':([17,18,19,20,23,],[22,-13,-14,-15,24,]),}
+_lr_action_items = {'CREATE':([0,],[5,]),'DESTROY':([0,],[6,]),'$end':([0,1,2,3,4,7,8,9,10,11,12,13,15,20,24,26,],[-17,0,-1,-2,-3,-17,-4,-5,-6,-7,-9,-8,-13,-10,-11,-12,]),'WINDOW':([5,6,],[8,8,]),'GRID':([5,6,],[9,9,]),'SPRITE':([5,6,],[10,10,]),'DRAW':([5,6,],[11,11,]),'LP':([7,8,9,10,11,],[14,-4,-5,-6,-7,]),'INT':([14,21,23,],[17,17,17,]),'FLOAT':([14,21,23,],[18,18,18,]),'STRING':([14,21,23,],[19,19,19,]),'RP':([16,17,18,19,22,25,],[20,-14,-15,-16,24,26,]),'COMMA':([16,17,18,19,22,],[21,-14,-15,-16,23,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -16,7 +16,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'grids':([0,],[1,]),'create':([0,],[2,]),'destroy':([0,],[3,]),'empty':([0,12,],[4,16,]),'object':([5,6,],[7,11,]),'parameters':([12,],[14,]),'parameter':([15,22,24,],[17,23,26,]),}
+_lr_goto_items = {'execute':([0,],[1,]),'create':([0,],[2,]),'destroy':([0,],[3,]),'empty':([0,7,],[4,15,]),'object':([5,6,],[7,12,]),'parameters':([7,],[13,]),'parameter':([14,21,23,],[16,22,25,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -25,21 +25,22 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> grids","S'",1,None,None,None),
-  ('grids -> create','grids',1,'p_grids','grids.py',55),
-  ('grids -> destroy','grids',1,'p_grids','grids.py',56),
-  ('grids -> empty','grids',1,'p_grids','grids.py',57),
-  ('object -> WINDOW','object',1,'p_object','grids.py',63),
-  ('object -> GRID','object',1,'p_object','grids.py',64),
-  ('object -> SPRITE','object',1,'p_object','grids.py',65),
-  ('create -> CREATE object NAME parameters','create',4,'p_create','grids.py',71),
-  ('destroy -> DESTROY object NAME','destroy',3,'p_destroy','grids.py',77),
-  ('parameters -> LEFTPAR parameter RIGHTPAR','parameters',3,'p_parameters','grids.py',83),
-  ('parameters -> LEFTPAR parameter COMMA parameter RIGHTPAR','parameters',5,'p_parameters','grids.py',84),
-  ('parameters -> LEFTPAR parameter COMMA parameter COMMA parameter RIGHTPAR','parameters',7,'p_parameters','grids.py',85),
-  ('parameters -> empty','parameters',1,'p_parameters','grids.py',86),
-  ('parameter -> INT','parameter',1,'p_parameter','grids.py',92),
-  ('parameter -> FLOAT','parameter',1,'p_parameter','grids.py',93),
-  ('parameter -> NAME','parameter',1,'p_parameter','grids.py',94),
-  ('empty -> <empty>','empty',0,'p_empty','grids.py',103),
+  ("S' -> execute","S'",1,None,None,None),
+  ('execute -> create','execute',1,'p_execute','grids.py',70),
+  ('execute -> destroy','execute',1,'p_execute','grids.py',71),
+  ('execute -> empty','execute',1,'p_execute','grids.py',72),
+  ('object -> WINDOW','object',1,'p_object','grids.py',78),
+  ('object -> GRID','object',1,'p_object','grids.py',79),
+  ('object -> SPRITE','object',1,'p_object','grids.py',80),
+  ('object -> DRAW','object',1,'p_object','grids.py',81),
+  ('create -> CREATE object parameters','create',3,'p_create','grids.py',87),
+  ('destroy -> DESTROY object','destroy',2,'p_destroy','grids.py',93),
+  ('parameters -> LP parameter RP','parameters',3,'p_parameters','grids.py',99),
+  ('parameters -> LP parameter COMMA parameter RP','parameters',5,'p_parameters','grids.py',100),
+  ('parameters -> LP parameter COMMA parameter COMMA parameter RP','parameters',7,'p_parameters','grids.py',101),
+  ('parameters -> empty','parameters',1,'p_parameters','grids.py',102),
+  ('parameter -> INT','parameter',1,'p_parameter','grids.py',115),
+  ('parameter -> FLOAT','parameter',1,'p_parameter','grids.py',116),
+  ('parameter -> STRING','parameter',1,'p_parameter','grids.py',117),
+  ('empty -> <empty>','empty',0,'p_empty','grids.py',123),
 ]
