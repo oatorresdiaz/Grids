@@ -12,7 +12,8 @@ reserved = {
     'Window' : 'WINDOW',
     'Grid' : 'GRID',
     'Sprite' : 'SPRITE',
-    'Draw' : 'DRAW'
+    'Draw' : 'DRAW',
+    'Start' : 'START'
 }
 
 tokens = [
@@ -69,6 +70,7 @@ def p_execute(p):
     '''
     execute : create
     | destroy
+    | start
     | empty
     '''
     print(run(p[1]))
@@ -93,6 +95,12 @@ def p_destroy(p):
     destroy : DESTROY object
     '''
     p[0] = (p[1], p[2])
+
+def p_start(p):
+    '''
+    start : START
+    '''
+    p[0] = p[1],
 
 def p_parameters(p):
     '''
@@ -144,13 +152,15 @@ def run(p):
             if p[1] == 'Sprite':
                 sprite = Sprite.Sprite(p[2][0], p[2][1], p[2][2])
                 sprite.create()
-                env['Sprite'] = sprite
+                env[p[2][0]] = sprite
 
             if p[1] == 'Draw':
                 window = env['Window']
                 draw = Draw.Draw(window, env['Grid'])
-                draw.draw(env['Sprite'], p[2][1], p[2][0])
-                window.create()
+                draw.draw(env[p[2][0]], p[2][1], p[2][2])
+
+        elif p[0] == 'Start':
+            env['Window'].create()
 
         elif p[0] == 'Destroy':
             pass
