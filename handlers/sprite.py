@@ -7,10 +7,11 @@ class Sprite:
     xCoord = 0 #Initial value
     yCoord = 0 #Initial value
 
-    def __init__(self, imagePath, width, height):
+    def __init__(self, imagePath, width, height, anchor):
         self.imagePath = imagePath
         self.width = width
         self.height = height
+        self.anchor = anchor
 
     def create(self):
         image_file = Image.open(self.imagePath).resize((self.width, self.height))
@@ -28,3 +29,9 @@ class Sprite:
 
     def getPosY(self):
         return self.yCoord
+
+    def setAnchor(self, anchor):
+        self.anchor = anchor
+
+    def getAnchor(self):
+        return self.anchor

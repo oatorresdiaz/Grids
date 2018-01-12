@@ -1,21 +1,32 @@
+from tkinter import *
 import handlers.window as Window
 import handlers.grid as Grid
 import handlers.draw as Draw
 import handlers.sprite as Sprite
+import handlers.action as Action
 
 window = Window.Window("Sandbox", 500, 500)
 grid = Grid.Grid(15, 15)
 grid.create()
-godzilla = Sprite.Sprite("/Users/orlandotorres/PycharmProjects/Grids/images/godzilla.png", 120, 79)
+godzilla = Sprite.Sprite("/Users/orlandotorres/PycharmProjects/Grids/images/godzilla.png", 120, 79, 's')
 godzilla.create()
-mario = Sprite.Sprite("/Users/orlandotorres/PycharmProjects/Grids/images/mario.png", 25, 22)
+mario = Sprite.Sprite("/Users/orlandotorres/PycharmProjects/Grids/images/mario.png", 25, 36, 's')
 mario.create()
-platform = Sprite.Sprite("/Users/orlandotorres/PycharmProjects/Grids/images/platform.png", 33, 33)
+platform = Sprite.Sprite("/Users/orlandotorres/PycharmProjects/Grids/images/platform.png", 33, 33, 'center')
 platform.create()
 draw = Draw.Draw(window, grid)
-#draw.drawOnEachCellInRow(1, godzilla)
-#draw.drawOnEachCellInColumn(0, mario)
-draw.drawOnEachCellInRow(12, platform)
-draw.drawOnEachCellInRow(13, platform)
-draw.drawOnEachCellInRow(14, platform)
+draw.draw(platform, 12, 10, 'center')
+draw.draw(platform, 11, 11, 'center')
+draw.draw(platform, 12, 11, 'center')
+draw.draw(platform, 12, 12, 'center')
+draw.draw(platform, 10, 12, 'center')
+draw.draw(platform, 11, 12, 'center')
+draw.draw(platform, 12, 12, 'center')
+draw.draw(platform, 12, 12, 'center')
+draw.drawOnEachCellInRow(platform, 13, 'center')
+draw.drawOnEachCellInRow(platform, 14, 'center')
+draw.draw(mario, 2, 12, 's')
+draw.draw(godzilla, 7, 12, 's')
+draw.drawGrid()
+action = Action.Action(window, grid)
 window.create()

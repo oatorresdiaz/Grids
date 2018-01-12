@@ -25,5 +25,3 @@ class Window:
         return self.height
 
 
-
-
