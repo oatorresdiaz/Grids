@@ -21,14 +21,6 @@ class Draw:
         else:
             print("ERROR: Cannot draw on that position because it does not exist on the grid.")
 
-    def drawGrid(self):
-        verLines = self.grid.getHorizontalSize() - 1
-        horLines = self.grid.getVerticalSize() - 1
-        for x in range(1, verLines + 1):
-            self.graphic.create_line(x*self.getCellWidth(), 0, x*self.getCellWidth(), self.window.getHeight())
-        for y in range(1, horLines + 1):
-            self.graphic.create_line(0, y*self.getCellHeight(), self.window.getWidth(), y*self.getCellHeight())
-
     def drawOnEachCellInRow(self, sprite, row, anchor):
         if self.doesRowExist(row):
             for cell in range(0, self.grid.getHorizontalSize()):
@@ -42,6 +34,14 @@ class Draw:
                 self.draw(sprite, column, cell, anchor)
         else:
             print("ERROR: Cannot draw on that row because it does not exist in the grid.")
+
+    def drawGrid(self):
+        verLines = self.grid.getHorizontalSize() - 1
+        horLines = self.grid.getVerticalSize() - 1
+        for x in range(1, verLines + 1):
+            self.graphic.create_line(x*self.getCellWidth(), 0, x*self.getCellWidth(), self.window.getHeight())
+        for y in range(1, horLines + 1):
+            self.graphic.create_line(0, y*self.getCellHeight(), self.window.getWidth(), y*self.getCellHeight())
 
     def getXCoordinate(self, x, anchor):
         cellSize = self.getCellWidth()
