@@ -49,6 +49,12 @@ class Draw:
         for sprite in sprites:
             self.graphic.delete(sprite)
 
+    def moveSprite(self, x, y): #TODO: ADD DIRECTION PARAMETER
+        sprite = self.grid.getSprites(5,12)[0]
+        self.graphic.move(sprite, x, y)
+        self.graphic.update()
+
+
     def getXCoordinate(self, x, anchor):
         cellSize = self.getCellWidth()
         if anchor == 'n' or anchor == 'center' or anchor == 's':

@@ -28,4 +28,12 @@ class Controller:
             self.action.leftMouseClicked = False
         self.window.window.after(50, self.eraseIfLeftMouseClicked)
 
+    def moveSpriteIfKeyPressed(self):
+        if self.action.getKeyPressed() == 'd':
+            self.draw.moveSprite(5, 0)
+        elif self.action.getKeyPressed() == 'a':
+            self.draw.moveSprite(-5,0)
+        self.window.window.after(50, self.moveSpriteIfKeyPressed)
+
+
 
