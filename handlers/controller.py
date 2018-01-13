@@ -4,9 +4,6 @@ import handlers.action as Action
 
 class Controller:
 
-    sprite = None
-    anchor = None
-
     def __init__(self, window, grid):
         self.window = window
         self.grid = grid
@@ -31,7 +28,4 @@ class Controller:
             self.action.leftMouseClicked = False
         self.window.window.after(50, self.eraseIfLeftMouseClicked)
 
-    def setSpriteAndAnchor(self, sprite, anchor):
-        self.sprite = sprite
-        self.anchor = anchor
 
