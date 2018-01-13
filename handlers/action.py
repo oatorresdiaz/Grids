@@ -25,7 +25,6 @@ class Action:
         y = math.floor(y)
         self.setXY(x, y)
         self.leftMouseClicked = True
-        print(x, y)
 
     def leftMouseRelease(self, event):
         self.leftMouseClicked = False

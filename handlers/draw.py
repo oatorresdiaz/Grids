@@ -16,7 +16,8 @@ class Draw:
             yCoord = self.getYCoordinate(y, anchor)
             sprite.setPosition(xCoord, yCoord)
             self.sprites.append(sprite)
-            self.graphic.create_image(xCoord, yCoord, anchor=sprite.getAnchor(), image=self.sprites[len(self.sprites) -1].getImage())
+            spr = self.graphic.create_image(xCoord, yCoord, anchor=sprite.getAnchor(), image=self.sprites[len(self.sprites) -1].getImage())
+            self.grid.addSpriteToCellDictionary(spr, x, y)
             self.graphic.pack(fill=BOTH, expand=1)
         else:
             print("ERROR: Cannot draw on that position because it does not exist on the grid.")
@@ -42,6 +43,11 @@ class Draw:
             self.graphic.create_line(x*self.getCellWidth(), 0, x*self.getCellWidth(), self.window.getHeight())
         for y in range(1, horLines + 1):
             self.graphic.create_line(0, y*self.getCellHeight(), self.window.getWidth(), y*self.getCellHeight())
+
+    def eraseSprite(self, x, y):
+        sprites = self.grid.getSprites(x, y)
+        for sprite in sprites:
+            self.graphic.delete(sprite)
 
     def getXCoordinate(self, x, anchor):
         cellSize = self.getCellWidth()
