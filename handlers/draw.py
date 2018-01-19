@@ -4,7 +4,7 @@ class Draw:
 
     graphic = Canvas()
     entry = Entry()
-    sprites = []
+    #sprites = []
 
     def __init__(self, window, grid):
         self.window = window
@@ -15,8 +15,9 @@ class Draw:
             xCoord = self.getXCoordinate(x, anchor)
             yCoord = self.getYCoordinate(y, anchor)
             sprite.setPosition(xCoord, yCoord)
-            self.sprites.append(sprite)
-            spr = self.graphic.create_image(xCoord, yCoord, anchor=sprite.getAnchor(), image=self.sprites[len(self.sprites) -1].getImage())
+            #self.sprites.append(sprite)
+            spr = self.graphic.create_image(xCoord, yCoord, anchor=sprite.getAnchor(), image=sprite.getImage())
+            sprite.setGraphic(spr)
             self.grid.addSpriteToCellDictionary(spr, x, y)
             self.graphic.pack(fill=BOTH, expand=1)
         else:
@@ -50,9 +51,10 @@ class Draw:
         for sprite in sprites:
             self.graphic.delete(sprite)
 
-    def moveSprite(self, x, y): #TODO: ADD DIRECTION PARAMETER
-        sprite = self.grid.getSprites(5,12)[0]
-        self.graphic.move(sprite, x, y)
+    def moveSprite(self, sprite, x, y): #TODO: ADD DIRECTION PARAMETER
+        #sprite = self.grid.getSprites(5,4)[0]
+        img = sprite.getGraphic()
+        self.graphic.move(img, x, y)
         self.graphic.update()
 
 

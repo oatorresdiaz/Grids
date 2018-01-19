@@ -1,9 +1,11 @@
 from tkinter import *
 from PIL import Image, ImageTk
+from tkinter import Canvas
 
 class Sprite:
 
     image = PhotoImage()
+    graphic = None
     xCoord = 0 #Initial value
     yCoord = 0 #Initial value
     type = None #Type of sprite: player, enemy, wall, floor
@@ -17,6 +19,12 @@ class Sprite:
     def create(self):
         image_file = Image.open(self.imagePath).resize((self.width, self.height))
         self.image = ImageTk.PhotoImage(image_file)
+
+    def setGraphic(self, graphic):
+        self.graphic = graphic
+
+    def getGraphic(self):
+        return self.graphic
 
     def getImage(self):
         return self.image
