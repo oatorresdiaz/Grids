@@ -13,7 +13,9 @@ reserved = {
     'Grid' : 'GRID',
     'Sprite' : 'SPRITE',
     'Draw' : 'DRAW',
-    'Start' : 'START'
+    'Start' : 'START',
+    'Add' : 'ADD',
+    'WinPos' : 'WINPOS'
 }
 
 tokens = [
@@ -70,7 +72,9 @@ def p_execute(p):
     '''
     execute : create
     | destroy
+    | draw
     | start
+    | append
     | empty
     '''
     print(run(p[1]))
@@ -80,7 +84,6 @@ def p_object(p):
     object : WINDOW
     | GRID
     | SPRITE
-    | DRAW
     '''
     p[0] = p[1] #Here we know what type of object is created. Modify later.
 
@@ -96,17 +99,30 @@ def p_destroy(p):
     '''
     p[0] = (p[1], p[2])
 
+def p_draw(p):
+    '''
+    draw : DRAW parameters
+    '''
+    p[0] = (p[1], p[2])
+
 def p_start(p):
     '''
     start : START
     '''
     p[0] = p[1],
 
+def p_append(p):
+    '''
+    append : ADD WINPOS parameters
+    '''
+    p[0] = (p[1], p[2], p[3])
+
 def p_parameters(p):
     '''
     parameters : LP parameter RP
     | LP parameter COMMA parameter RP
     | LP parameter COMMA parameter COMMA parameter RP
+    | LP parameter COMMA parameter COMMA parameter COMMA parameter RP
     | empty
     '''
     if len(p) == 4:
@@ -115,6 +131,8 @@ def p_parameters(p):
         p[0] = (p[2], p[4])
     elif len(p) == 8:
         p[0] = (p[2], p[4], p[6])
+    elif len(p) == 10:
+        p[0] = (p[2], p[4], p[6], p[8])
     else:
         p[0] = None
 
@@ -123,8 +141,12 @@ def p_parameter(p):
     parameter : INT
     | FLOAT
     | STRING
+    | LP parameter COMMA parameter RP
     '''
-    p[0] = p[1]
+    if len(p) == 2:
+        p[0] = p[1]
+    elif len(p) == 6:
+        p[0] = (p[2] , p[4])
 
 def p_empty(p):
     '''
@@ -135,9 +157,13 @@ def p_empty(p):
 
 parser = yacc.yacc()
 env = {}
+gb = {}
+winPos = []
 
 def run(p):
     global env
+    global gb
+    global winPos
     if type(p) == tuple:
         if p[0] == 'Create':
             if p[1] == 'Window':
@@ -148,16 +174,33 @@ def run(p):
                 grid = Grid.Grid(p[2][0], p[2][1])
                 grid.create()
                 env['Grid'] = grid
+                for x in range(p[2][0]):
+                    for y in range(p[2][1]):
+                        gb[str(x) + ',' + str(y)] = 'empty'
+                print(gb)
 
             if p[1] == 'Sprite':
                 sprite = Sprite.Sprite(p[2][0], p[2][1], p[2][2])
                 sprite.create()
                 env[p[2][0]] = sprite
 
-            if p[1] == 'Draw':
-                window = env['Window']
-                draw = Draw.Draw(window, env['Grid'])
-                draw.draw(env[p[2][0]], p[2][1], p[2][2])
+        elif p[0] == 'Draw':
+            window = env['Window']
+            draw = Draw.Draw(window, env['Grid'])
+            draw.draw(env[p[1][0]], p[1][1], p[1][2])
+
+        elif p[0] == 'Add':
+            if len(p[2]) == 2:
+                winPos.append((str(p[2][0][0]) + ',' + str(p[2][0][1]), str(p[2][1][0]) + ',' + str(p[2][1][1])))
+                print(winPos)
+            elif len(p[2]) == 3:
+                winPos.append((str(p[2][0][0]) + ',' + str(p[2][0][1]), str(p[2][1][0]) + ',' + str(p[2][1][1]),
+                               str(p[2][2][0]) + ',' + str(p[2][2][1])))
+                print(winPos)
+            elif len(p[2]) == 4:
+                winPos.append((str(p[2][0][0]) + ',' + str(p[2][0][1]), str(p[2][1][0]) + ',' + str(p[2][1][1]),
+                               str(p[2][2][0]) + ',' + str(p[2][2][1]), str(p[2][3][0]) + ',' + str(p[2][3][1])))
+                print(winPos)
 
         elif p[0] == 'Start':
             env['Window'].create()

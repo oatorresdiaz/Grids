@@ -24,6 +24,3 @@ class Window:
     def getHeight(self):
         return self.height
 
-
-
-

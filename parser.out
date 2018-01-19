@@ -5,51 +5,60 @@ Grammar
 Rule 0     S' -> execute
 Rule 1     execute -> create
 Rule 2     execute -> destroy
-Rule 3     execute -> start
-Rule 4     execute -> empty
-Rule 5     object -> WINDOW
-Rule 6     object -> GRID
-Rule 7     object -> SPRITE
-Rule 8     object -> DRAW
-Rule 9     create -> CREATE object parameters
-Rule 10    destroy -> DESTROY object
-Rule 11    start -> START
-Rule 12    parameters -> LP parameter RP
-Rule 13    parameters -> LP parameter COMMA parameter RP
-Rule 14    parameters -> LP parameter COMMA parameter COMMA parameter RP
-Rule 15    parameters -> empty
-Rule 16    parameter -> INT
-Rule 17    parameter -> FLOAT
-Rule 18    parameter -> STRING
-Rule 19    empty -> <empty>
+Rule 3     execute -> draw
+Rule 4     execute -> start
+Rule 5     execute -> append
+Rule 6     execute -> empty
+Rule 7     object -> WINDOW
+Rule 8     object -> GRID
+Rule 9     object -> SPRITE
+Rule 10    create -> CREATE object parameters
+Rule 11    destroy -> DESTROY object
+Rule 12    draw -> DRAW parameters
+Rule 13    start -> START
+Rule 14    append -> ADD WINPOS parameters
+Rule 15    parameters -> LP parameter RP
+Rule 16    parameters -> LP parameter COMMA parameter RP
+Rule 17    parameters -> LP parameter COMMA parameter COMMA parameter RP
+Rule 18    parameters -> LP parameter COMMA parameter COMMA parameter COMMA parameter RP
+Rule 19    parameters -> empty
+Rule 20    parameter -> INT
+Rule 21    parameter -> FLOAT
+Rule 22    parameter -> STRING
+Rule 23    parameter -> LP parameter COMMA parameter RP
+Rule 24    empty -> <empty>
 
 Terminals, with rules where they appear
 
-COMMA                : 13 14 14
-CREATE               : 9
-DESTROY              : 10
-DRAW                 : 8
-FLOAT                : 17
-GRID                 : 6
-INT                  : 16
-LP                   : 12 13 14
-RP                   : 12 13 14
-SPRITE               : 7
-START                : 11
-STRING               : 18
-WINDOW               : 5
+ADD                  : 14
+COMMA                : 16 17 17 18 18 18 23
+CREATE               : 10
+DESTROY              : 11
+DRAW                 : 12
+FLOAT                : 21
+GRID                 : 8
+INT                  : 20
+LP                   : 15 16 17 18 23
+RP                   : 15 16 17 18 23
+SPRITE               : 9
+START                : 13
+STRING               : 22
+WINDOW               : 7
+WINPOS               : 14
 error                : 
 
 Nonterminals, with rules where they appear
 
+append               : 5
 create               : 1
 destroy              : 2
-empty                : 4 15
+draw                 : 3
+empty                : 6 19
 execute              : 0
-object               : 9 10
-parameter            : 12 13 13 14 14 14
-parameters           : 9
-start                : 3
+object               : 10 11
+parameter            : 15 16 16 17 17 17 18 18 18 18 23 23
+parameters           : 10 12 14
+start                : 4
 
 Parsing method: LALR
 
@@ -58,23 +67,31 @@ state 0
     (0) S' -> . execute
     (1) execute -> . create
     (2) execute -> . destroy
-    (3) execute -> . start
-    (4) execute -> . empty
-    (9) create -> . CREATE object parameters
-    (10) destroy -> . DESTROY object
-    (11) start -> . START
-    (19) empty -> .
+    (3) execute -> . draw
+    (4) execute -> . start
+    (5) execute -> . append
+    (6) execute -> . empty
+    (10) create -> . CREATE object parameters
+    (11) destroy -> . DESTROY object
+    (12) draw -> . DRAW parameters
+    (13) start -> . START
+    (14) append -> . ADD WINPOS parameters
+    (24) empty -> .
 
-    CREATE          shift and go to state 6
-    DESTROY         shift and go to state 7
-    START           shift and go to state 8
-    $end            reduce using rule 19 (empty -> .)
+    CREATE          shift and go to state 8
+    DESTROY         shift and go to state 9
+    DRAW            shift and go to state 10
+    START           shift and go to state 11
+    ADD             shift and go to state 12
+    $end            reduce using rule 24 (empty -> .)
 
     execute                        shift and go to state 1
     create                         shift and go to state 2
     destroy                        shift and go to state 3
-    start                          shift and go to state 4
-    empty                          shift and go to state 5
+    draw                           shift and go to state 4
+    start                          shift and go to state 5
+    append                         shift and go to state 6
+    empty                          shift and go to state 7
 
 state 1
 
@@ -98,232 +115,382 @@ state 3
 
 state 4
 
-    (3) execute -> start .
+    (3) execute -> draw .
 
-    $end            reduce using rule 3 (execute -> start .)
+    $end            reduce using rule 3 (execute -> draw .)
 
 
 state 5
 
-    (4) execute -> empty .
+    (4) execute -> start .
 
-    $end            reduce using rule 4 (execute -> empty .)
+    $end            reduce using rule 4 (execute -> start .)
 
 
 state 6
 
-    (9) create -> CREATE . object parameters
-    (5) object -> . WINDOW
-    (6) object -> . GRID
-    (7) object -> . SPRITE
-    (8) object -> . DRAW
+    (5) execute -> append .
 
-    WINDOW          shift and go to state 10
-    GRID            shift and go to state 11
-    SPRITE          shift and go to state 12
-    DRAW            shift and go to state 13
+    $end            reduce using rule 5 (execute -> append .)
 
-    object                         shift and go to state 9
 
 state 7
 
-    (10) destroy -> DESTROY . object
-    (5) object -> . WINDOW
-    (6) object -> . GRID
-    (7) object -> . SPRITE
-    (8) object -> . DRAW
+    (6) execute -> empty .
 
-    WINDOW          shift and go to state 10
-    GRID            shift and go to state 11
-    SPRITE          shift and go to state 12
-    DRAW            shift and go to state 13
+    $end            reduce using rule 6 (execute -> empty .)
 
-    object                         shift and go to state 14
 
 state 8
 
-    (11) start -> START .
+    (10) create -> CREATE . object parameters
+    (7) object -> . WINDOW
+    (8) object -> . GRID
+    (9) object -> . SPRITE
 
-    $end            reduce using rule 11 (start -> START .)
+    WINDOW          shift and go to state 14
+    GRID            shift and go to state 15
+    SPRITE          shift and go to state 16
 
+    object                         shift and go to state 13
 
 state 9
 
-    (9) create -> CREATE object . parameters
-    (12) parameters -> . LP parameter RP
-    (13) parameters -> . LP parameter COMMA parameter RP
-    (14) parameters -> . LP parameter COMMA parameter COMMA parameter RP
-    (15) parameters -> . empty
-    (19) empty -> .
+    (11) destroy -> DESTROY . object
+    (7) object -> . WINDOW
+    (8) object -> . GRID
+    (9) object -> . SPRITE
 
-    LP              shift and go to state 16
-    $end            reduce using rule 19 (empty -> .)
+    WINDOW          shift and go to state 14
+    GRID            shift and go to state 15
+    SPRITE          shift and go to state 16
 
-    parameters                     shift and go to state 15
-    empty                          shift and go to state 17
+    object                         shift and go to state 17
 
 state 10
 
-    (5) object -> WINDOW .
+    (12) draw -> DRAW . parameters
+    (15) parameters -> . LP parameter RP
+    (16) parameters -> . LP parameter COMMA parameter RP
+    (17) parameters -> . LP parameter COMMA parameter COMMA parameter RP
+    (18) parameters -> . LP parameter COMMA parameter COMMA parameter COMMA parameter RP
+    (19) parameters -> . empty
+    (24) empty -> .
 
-    LP              reduce using rule 5 (object -> WINDOW .)
-    $end            reduce using rule 5 (object -> WINDOW .)
+    LP              shift and go to state 19
+    $end            reduce using rule 24 (empty -> .)
 
+    parameters                     shift and go to state 18
+    empty                          shift and go to state 20
 
 state 11
 
-    (6) object -> GRID .
+    (13) start -> START .
 
-    LP              reduce using rule 6 (object -> GRID .)
-    $end            reduce using rule 6 (object -> GRID .)
+    $end            reduce using rule 13 (start -> START .)
 
 
 state 12
 
-    (7) object -> SPRITE .
+    (14) append -> ADD . WINPOS parameters
 
-    LP              reduce using rule 7 (object -> SPRITE .)
-    $end            reduce using rule 7 (object -> SPRITE .)
+    WINPOS          shift and go to state 21
 
 
 state 13
 
-    (8) object -> DRAW .
+    (10) create -> CREATE object . parameters
+    (15) parameters -> . LP parameter RP
+    (16) parameters -> . LP parameter COMMA parameter RP
+    (17) parameters -> . LP parameter COMMA parameter COMMA parameter RP
+    (18) parameters -> . LP parameter COMMA parameter COMMA parameter COMMA parameter RP
+    (19) parameters -> . empty
+    (24) empty -> .
 
-    LP              reduce using rule 8 (object -> DRAW .)
-    $end            reduce using rule 8 (object -> DRAW .)
+    LP              shift and go to state 19
+    $end            reduce using rule 24 (empty -> .)
 
+    parameters                     shift and go to state 22
+    empty                          shift and go to state 20
 
 state 14
 
-    (10) destroy -> DESTROY object .
+    (7) object -> WINDOW .
 
-    $end            reduce using rule 10 (destroy -> DESTROY object .)
+    LP              reduce using rule 7 (object -> WINDOW .)
+    $end            reduce using rule 7 (object -> WINDOW .)
 
 
 state 15
 
-    (9) create -> CREATE object parameters .
+    (8) object -> GRID .
 
-    $end            reduce using rule 9 (create -> CREATE object parameters .)
+    LP              reduce using rule 8 (object -> GRID .)
+    $end            reduce using rule 8 (object -> GRID .)
 
 
 state 16
 
-    (12) parameters -> LP . parameter RP
-    (13) parameters -> LP . parameter COMMA parameter RP
-    (14) parameters -> LP . parameter COMMA parameter COMMA parameter RP
-    (16) parameter -> . INT
-    (17) parameter -> . FLOAT
-    (18) parameter -> . STRING
+    (9) object -> SPRITE .
 
-    INT             shift and go to state 19
-    FLOAT           shift and go to state 20
-    STRING          shift and go to state 21
+    LP              reduce using rule 9 (object -> SPRITE .)
+    $end            reduce using rule 9 (object -> SPRITE .)
 
-    parameter                      shift and go to state 18
 
 state 17
 
-    (15) parameters -> empty .
+    (11) destroy -> DESTROY object .
 
-    $end            reduce using rule 15 (parameters -> empty .)
+    $end            reduce using rule 11 (destroy -> DESTROY object .)
 
 
 state 18
 
-    (12) parameters -> LP parameter . RP
-    (13) parameters -> LP parameter . COMMA parameter RP
-    (14) parameters -> LP parameter . COMMA parameter COMMA parameter RP
+    (12) draw -> DRAW parameters .
 
-    RP              shift and go to state 22
-    COMMA           shift and go to state 23
+    $end            reduce using rule 12 (draw -> DRAW parameters .)
 
 
 state 19
 
-    (16) parameter -> INT .
+    (15) parameters -> LP . parameter RP
+    (16) parameters -> LP . parameter COMMA parameter RP
+    (17) parameters -> LP . parameter COMMA parameter COMMA parameter RP
+    (18) parameters -> LP . parameter COMMA parameter COMMA parameter COMMA parameter RP
+    (20) parameter -> . INT
+    (21) parameter -> . FLOAT
+    (22) parameter -> . STRING
+    (23) parameter -> . LP parameter COMMA parameter RP
 
-    RP              reduce using rule 16 (parameter -> INT .)
-    COMMA           reduce using rule 16 (parameter -> INT .)
+    INT             shift and go to state 25
+    FLOAT           shift and go to state 26
+    STRING          shift and go to state 27
+    LP              shift and go to state 23
 
+    parameter                      shift and go to state 24
 
 state 20
 
-    (17) parameter -> FLOAT .
+    (19) parameters -> empty .
 
-    RP              reduce using rule 17 (parameter -> FLOAT .)
-    COMMA           reduce using rule 17 (parameter -> FLOAT .)
+    $end            reduce using rule 19 (parameters -> empty .)
 
 
 state 21
 
-    (18) parameter -> STRING .
+    (14) append -> ADD WINPOS . parameters
+    (15) parameters -> . LP parameter RP
+    (16) parameters -> . LP parameter COMMA parameter RP
+    (17) parameters -> . LP parameter COMMA parameter COMMA parameter RP
+    (18) parameters -> . LP parameter COMMA parameter COMMA parameter COMMA parameter RP
+    (19) parameters -> . empty
+    (24) empty -> .
 
-    RP              reduce using rule 18 (parameter -> STRING .)
-    COMMA           reduce using rule 18 (parameter -> STRING .)
+    LP              shift and go to state 19
+    $end            reduce using rule 24 (empty -> .)
 
+    parameters                     shift and go to state 28
+    empty                          shift and go to state 20
 
 state 22
 
-    (12) parameters -> LP parameter RP .
+    (10) create -> CREATE object parameters .
 
-    $end            reduce using rule 12 (parameters -> LP parameter RP .)
+    $end            reduce using rule 10 (create -> CREATE object parameters .)
 
 
 state 23
 
-    (13) parameters -> LP parameter COMMA . parameter RP
-    (14) parameters -> LP parameter COMMA . parameter COMMA parameter RP
-    (16) parameter -> . INT
-    (17) parameter -> . FLOAT
-    (18) parameter -> . STRING
+    (23) parameter -> LP . parameter COMMA parameter RP
+    (20) parameter -> . INT
+    (21) parameter -> . FLOAT
+    (22) parameter -> . STRING
+    (23) parameter -> . LP parameter COMMA parameter RP
 
-    INT             shift and go to state 19
-    FLOAT           shift and go to state 20
-    STRING          shift and go to state 21
+    INT             shift and go to state 25
+    FLOAT           shift and go to state 26
+    STRING          shift and go to state 27
+    LP              shift and go to state 23
 
-    parameter                      shift and go to state 24
+    parameter                      shift and go to state 29
 
 state 24
 
-    (13) parameters -> LP parameter COMMA parameter . RP
-    (14) parameters -> LP parameter COMMA parameter . COMMA parameter RP
+    (15) parameters -> LP parameter . RP
+    (16) parameters -> LP parameter . COMMA parameter RP
+    (17) parameters -> LP parameter . COMMA parameter COMMA parameter RP
+    (18) parameters -> LP parameter . COMMA parameter COMMA parameter COMMA parameter RP
 
-    RP              shift and go to state 26
-    COMMA           shift and go to state 25
+    RP              shift and go to state 30
+    COMMA           shift and go to state 31
 
 
 state 25
 
-    (14) parameters -> LP parameter COMMA parameter COMMA . parameter RP
-    (16) parameter -> . INT
-    (17) parameter -> . FLOAT
-    (18) parameter -> . STRING
+    (20) parameter -> INT .
 
-    INT             shift and go to state 19
-    FLOAT           shift and go to state 20
-    STRING          shift and go to state 21
+    RP              reduce using rule 20 (parameter -> INT .)
+    COMMA           reduce using rule 20 (parameter -> INT .)
 
-    parameter                      shift and go to state 27
 
 state 26
 
-    (13) parameters -> LP parameter COMMA parameter RP .
+    (21) parameter -> FLOAT .
 
-    $end            reduce using rule 13 (parameters -> LP parameter COMMA parameter RP .)
+    RP              reduce using rule 21 (parameter -> FLOAT .)
+    COMMA           reduce using rule 21 (parameter -> FLOAT .)
 
 
 state 27
 
-    (14) parameters -> LP parameter COMMA parameter COMMA parameter . RP
+    (22) parameter -> STRING .
 
-    RP              shift and go to state 28
+    RP              reduce using rule 22 (parameter -> STRING .)
+    COMMA           reduce using rule 22 (parameter -> STRING .)
 
 
 state 28
 
-    (14) parameters -> LP parameter COMMA parameter COMMA parameter RP .
+    (14) append -> ADD WINPOS parameters .
 
-    $end            reduce using rule 14 (parameters -> LP parameter COMMA parameter COMMA parameter RP .)
+    $end            reduce using rule 14 (append -> ADD WINPOS parameters .)
+
+
+state 29
+
+    (23) parameter -> LP parameter . COMMA parameter RP
+
+    COMMA           shift and go to state 32
+
+
+state 30
+
+    (15) parameters -> LP parameter RP .
+
+    $end            reduce using rule 15 (parameters -> LP parameter RP .)
+
+
+state 31
+
+    (16) parameters -> LP parameter COMMA . parameter RP
+    (17) parameters -> LP parameter COMMA . parameter COMMA parameter RP
+    (18) parameters -> LP parameter COMMA . parameter COMMA parameter COMMA parameter RP
+    (20) parameter -> . INT
+    (21) parameter -> . FLOAT
+    (22) parameter -> . STRING
+    (23) parameter -> . LP parameter COMMA parameter RP
+
+    INT             shift and go to state 25
+    FLOAT           shift and go to state 26
+    STRING          shift and go to state 27
+    LP              shift and go to state 23
+
+    parameter                      shift and go to state 33
+
+state 32
+
+    (23) parameter -> LP parameter COMMA . parameter RP
+    (20) parameter -> . INT
+    (21) parameter -> . FLOAT
+    (22) parameter -> . STRING
+    (23) parameter -> . LP parameter COMMA parameter RP
+
+    INT             shift and go to state 25
+    FLOAT           shift and go to state 26
+    STRING          shift and go to state 27
+    LP              shift and go to state 23
+
+    parameter                      shift and go to state 34
+
+state 33
+
+    (16) parameters -> LP parameter COMMA parameter . RP
+    (17) parameters -> LP parameter COMMA parameter . COMMA parameter RP
+    (18) parameters -> LP parameter COMMA parameter . COMMA parameter COMMA parameter RP
+
+    RP              shift and go to state 36
+    COMMA           shift and go to state 35
+
+
+state 34
+
+    (23) parameter -> LP parameter COMMA parameter . RP
+
+    RP              shift and go to state 37
+
+
+state 35
+
+    (17) parameters -> LP parameter COMMA parameter COMMA . parameter RP
+    (18) parameters -> LP parameter COMMA parameter COMMA . parameter COMMA parameter RP
+    (20) parameter -> . INT
+    (21) parameter -> . FLOAT
+    (22) parameter -> . STRING
+    (23) parameter -> . LP parameter COMMA parameter RP
+
+    INT             shift and go to state 25
+    FLOAT           shift and go to state 26
+    STRING          shift and go to state 27
+    LP              shift and go to state 23
+
+    parameter                      shift and go to state 38
+
+state 36
+
+    (16) parameters -> LP parameter COMMA parameter RP .
+
+    $end            reduce using rule 16 (parameters -> LP parameter COMMA parameter RP .)
+
+
+state 37
+
+    (23) parameter -> LP parameter COMMA parameter RP .
+
+    RP              reduce using rule 23 (parameter -> LP parameter COMMA parameter RP .)
+    COMMA           reduce using rule 23 (parameter -> LP parameter COMMA parameter RP .)
+
+
+state 38
+
+    (17) parameters -> LP parameter COMMA parameter COMMA parameter . RP
+    (18) parameters -> LP parameter COMMA parameter COMMA parameter . COMMA parameter RP
+
+    RP              shift and go to state 40
+    COMMA           shift and go to state 39
+
+
+state 39
+
+    (18) parameters -> LP parameter COMMA parameter COMMA parameter COMMA . parameter RP
+    (20) parameter -> . INT
+    (21) parameter -> . FLOAT
+    (22) parameter -> . STRING
+    (23) parameter -> . LP parameter COMMA parameter RP
+
+    INT             shift and go to state 25
+    FLOAT           shift and go to state 26
+    STRING          shift and go to state 27
+    LP              shift and go to state 23
+
+    parameter                      shift and go to state 41
+
+state 40
+
+    (17) parameters -> LP parameter COMMA parameter COMMA parameter RP .
+
+    $end            reduce using rule 17 (parameters -> LP parameter COMMA parameter COMMA parameter RP .)
+
+
+state 41
+
+    (18) parameters -> LP parameter COMMA parameter COMMA parameter COMMA parameter . RP
+
+    RP              shift and go to state 42
+
+
+state 42
+
+    (18) parameters -> LP parameter COMMA parameter COMMA parameter COMMA parameter RP .
+
+    $end            reduce using rule 18 (parameters -> LP parameter COMMA parameter COMMA parameter COMMA parameter RP .)
 

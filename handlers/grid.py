@@ -10,6 +10,7 @@ class Grid:
 
     def create(self):
         self.coord = [[self.sprites for xCoord in range(self.horSize)] for yCoord in range(self.verSize)]
+        print(self.coord)
 
     def getHorizontalSize(self):
         return self.horSize
