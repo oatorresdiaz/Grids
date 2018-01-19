@@ -21,6 +21,17 @@ class Controller:
             self.action.leftMouseClicked = False
         self.window.window.after(50, self.drawIfLeftMouseClicked, sprite, anchor)
 
+    def drawIfLeftMouseClickedAndNoOverlapping(self, sprite, anchor):
+        if self.action.isLeftMouseClicked():
+            x, y = self.action.getXY()
+            if len(self.grid.getSprites(x,y)) > 0:
+                print("Cannot draw here because sprite exists.")
+            else:
+                self.draw.draw(sprite, x, y, anchor)
+                print(self.grid.coord[y][x])
+            self.action.leftMouseClicked = False
+        self.window.window.after(50, self.drawIfLeftMouseClickedAndNoOverlapping, sprite, anchor)
+
     def eraseIfLeftMouseClicked(self):
         if self.action.isLeftMouseClicked():
             x, y = self.action.getXY()

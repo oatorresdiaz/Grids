@@ -43,6 +43,7 @@ class Draw:
             self.graphic.create_line(x*self.getCellWidth(), 0, x*self.getCellWidth(), self.window.getHeight())
         for y in range(1, horLines + 1):
             self.graphic.create_line(0, y*self.getCellHeight(), self.window.getWidth(), y*self.getCellHeight())
+        self.graphic.pack(fill=BOTH, expand=1)
 
     def eraseSprite(self, x, y):
         sprites = self.grid.getSprites(x, y)
