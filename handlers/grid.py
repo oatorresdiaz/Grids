@@ -2,6 +2,7 @@
 class Grid:
 
     coord = []
+    sprites = {}
 
     def __init__(self, horSize, verSize):
         self.horSize = horSize

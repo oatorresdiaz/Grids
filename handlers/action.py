@@ -6,7 +6,6 @@ class Action:
 
     x, y = 0, 0 #Defines the position where the mouse was clicked
     leftMouseClicked = False
-    drawIfLeftMouseClickedEnabled = False
     keyPressed = False
 
     def __init__(self, window, grid):

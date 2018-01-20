@@ -49,8 +49,6 @@ class Controller:
     #     self.window.window.after(50, self.moveSpriteIfKeyPressed)
 
     def usePlatformer(self):
-        #self.platformer.setGravity(100)
-        #self.platformer.start()
         self.platformer.start()
         self.window.window.after(50, self.usePlatformer)
 

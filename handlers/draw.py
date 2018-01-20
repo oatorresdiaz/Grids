@@ -1,10 +1,10 @@
 from tkinter import *
+import copy
 
 class Draw:
 
     graphic = Canvas()
     entry = Entry()
-    #sprites = []
 
     def __init__(self, window, grid):
         self.window = window
@@ -15,10 +15,11 @@ class Draw:
             xCoord = self.getXCoordinate(x, anchor)
             yCoord = self.getYCoordinate(y, anchor)
             sprite.setPosition(xCoord, yCoord)
-            #self.sprites.append(sprite)
             spr = self.graphic.create_image(xCoord, yCoord, anchor=sprite.getAnchor(), image=sprite.getImage())
             sprite.setGraphic(spr)
-            self.grid.addSpriteToCellDictionary(spr, x, y)
+            #print(self.graphic.find_overlapping(x1,y1,x2,y2))
+            #print(self.graphic.bbox(sprite.getGraphic()))
+            self.grid.addSpriteToCellDictionary(copy.copy(sprite), x, y)
             self.graphic.pack(fill=BOTH, expand=1)
         else:
             print("ERROR: Cannot draw on that position because it does not exist on the grid.")
@@ -51,8 +52,7 @@ class Draw:
         for sprite in sprites:
             self.graphic.delete(sprite)
 
-    def moveSprite(self, sprite, x, y): #TODO: ADD DIRECTION PARAMETER
-        #sprite = self.grid.getSprites(5,4)[0]
+    def moveSprite(self, sprite, x, y): #TODO: FIX
         img = sprite.getGraphic()
         self.graphic.move(img, x, y)
         self.graphic.update()
