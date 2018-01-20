@@ -50,7 +50,7 @@ class Draw:
     def eraseSprite(self, x, y):
         sprites = self.grid.getSprites(x, y)
         for sprite in sprites:
-            self.graphic.delete(sprite)
+            self.graphic.delete(sprite.getGraphic())
 
     def moveSprite(self, sprite, x, y): #TODO: FIX
         img = sprite.getGraphic()

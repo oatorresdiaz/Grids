@@ -41,16 +41,16 @@ class Controller:
             self.action.leftMouseClicked = False
         self.window.window.after(50, self.eraseIfLeftMouseClicked)
 
-    # def moveSpriteIfKeyPressed(self):
-    #     if self.action.getKeyPressed() == 'd':
-    #         self.draw.moveSprite(5, 0)
-    #     elif self.action.getKeyPressed() == 'a':
-    #         self.draw.moveSprite(-5,0)
-    #     self.window.window.after(50, self.moveSpriteIfKeyPressed)
+    def moveSpriteIfKeyPressed(self, sprite):
+        if self.action.getKeyPressed() == 'd':
+            self.draw.moveSprite(sprite, 5, 0)
+        elif self.action.getKeyPressed() == 'a':
+            self.draw.moveSprite(sprite, -5,0)
+        self.window.window.after(50, self.moveSpriteIfKeyPressed, sprite)
 
     def usePlatformer(self):
         self.platformer.start()
-        self.window.window.after(50, self.usePlatformer)
+        self.window.window.after(500, self.usePlatformer)
 
 
 
