@@ -6,7 +6,7 @@ class Action:
 
     x, y = 0, 0 #Defines the position where the mouse was clicked
     leftMouseClicked = False
-    keyPressed = False
+    keyPressed = False #TODO: CHANGE THIS TO NONE
 
     def __init__(self, window, grid):
         self.window = window

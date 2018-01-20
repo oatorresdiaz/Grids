@@ -17,8 +17,6 @@ class Draw:
             sprite.setPosition(xCoord, yCoord)
             spr = self.graphic.create_image(xCoord, yCoord, anchor=sprite.getAnchor(), image=sprite.getImage())
             sprite.setGraphic(spr)
-            #print(self.graphic.find_overlapping(x1,y1,x2,y2))
-            #print(self.graphic.bbox(sprite.getGraphic()))
             self.grid.addSpriteToCellDictionary(copy.copy(sprite), x, y)
             self.graphic.pack(fill=BOTH, expand=1)
         else:
@@ -103,3 +101,6 @@ class Draw:
 
     def getCellHeight(self):
         return self.window.getHeight() / self.grid.getVerticalSize()
+
+    def getGraphics(self):
+        return self.graphic

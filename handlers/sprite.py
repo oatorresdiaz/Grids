@@ -3,11 +3,11 @@ from PIL import Image, ImageTk
 
 class Sprite:
 
-    image = PhotoImage()
+    image = None
     graphic = None
     xCoord = 0 #Initial value
     yCoord = 0 #Initial value
-    type = None #Type of sprite: player, enemy, wall, floor
+    native = True #Describes if the sprite was created before the game began.
 
     def __init__(self, name, imagePath, width, height, anchor):
         self.name = name
@@ -32,11 +32,11 @@ class Sprite:
     def getGraphic(self):
         return self.graphic
 
-    def setType(self, type):
-        self.type = type
+    def setNativeTo(self, bool):
+        self.native = bool
 
-    def getType(self):
-        return self.type
+    def isNative(self):
+        return self.native
 
     def setPosition(self, xCoord, yCoord):
         self.xCoord = xCoord

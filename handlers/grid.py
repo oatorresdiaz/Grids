@@ -1,3 +1,4 @@
+import copy
 
 class Grid:
 
@@ -22,3 +23,9 @@ class Grid:
 
     def getVerticalSize(self):
         return self.verSize
+
+    def clearDictionary(self):
+        coordCopy = copy.copy(self.coord)
+        self.coord.clear()
+        self.create()
+        return coordCopy
