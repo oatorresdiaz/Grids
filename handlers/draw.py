@@ -1,10 +1,10 @@
 from tkinter import *
+import copy
 
 class Draw:
 
     graphic = Canvas()
     entry = Entry()
-    sprites = []
 
     def __init__(self, window, grid):
         self.window = window
@@ -15,9 +15,9 @@ class Draw:
             xCoord = self.getXCoordinate(x, anchor)
             yCoord = self.getYCoordinate(y, anchor)
             sprite.setPosition(xCoord, yCoord)
-            self.sprites.append(sprite)
-            spr = self.graphic.create_image(xCoord, yCoord, anchor=sprite.getAnchor(), image=self.sprites[len(self.sprites) -1].getImage())
-            self.grid.addSpriteToCellDictionary(spr, x, y)
+            spr = self.graphic.create_image(xCoord, yCoord, anchor=sprite.getAnchor(), image=sprite.getImage())
+            sprite.setGraphic(spr)
+            self.grid.addSpriteToCellDictionary(copy.copy(sprite), x, y)
             self.graphic.pack(fill=BOTH, expand=1)
         else:
             print("ERROR: Cannot draw on that position because it does not exist on the grid.")
@@ -48,11 +48,11 @@ class Draw:
     def eraseSprite(self, x, y):
         sprites = self.grid.getSprites(x, y)
         for sprite in sprites:
-            self.graphic.delete(sprite)
+            self.graphic.delete(sprite.getGraphic())
 
-    def moveSprite(self, x, y): #TODO: ADD DIRECTION PARAMETER
-        sprite = self.grid.getSprites(5,12)[0]
-        self.graphic.move(sprite, x, y)
+    def moveSprite(self, sprite, x, y): #TODO: FIX
+        img = sprite.getGraphic()
+        self.graphic.move(img, x, y)
         self.graphic.update()
 
 
@@ -101,3 +101,6 @@ class Draw:
 
     def getCellHeight(self):
         return self.window.getHeight() / self.grid.getVerticalSize()
+
+    def getGraphics(self):
+        return self.graphic
