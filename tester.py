@@ -36,10 +36,8 @@ window = Window.Window("Game Board", 500, 500)
 grid = Grid.Grid(3,3)
 grid.create()
 
-sprite_x = Sprite.Sprite("/Users/orlandotorres/PycharmProjects/Grids/images/x.png", 150, 150, 'center')
+sprite_x = Sprite.Sprite("uprm.png", 150, 150, 'center')
 sprite_x.create()
-sprite_zero = Sprite.Sprite("/Users/orlandotorres/PycharmProjects/Grids/images/zero.png", 150, 150, 'center')
-sprite_zero.create()
 
 controller = Controller.Controller(window, grid)
 controller.draw.drawGrid()

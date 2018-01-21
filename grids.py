@@ -4,7 +4,10 @@ import handlers.window as Window
 import handlers.draw as Draw
 import handlers.sprite as Sprite
 import handlers.grid as Grid
+import handlers.controller as Controller
+import handlers
 import sys
+import traceback as tb
 
 reserved = {
     'Create' : 'CREATE',
@@ -15,7 +18,8 @@ reserved = {
     'Draw' : 'DRAW',
     'Start' : 'START',
     'Add' : 'ADD',
-    'WinPos' : 'WINPOS'
+    'WinPos' : 'WINPOS',
+    'Controller' : 'CONTROLLER'
 }
 
 tokens = [
@@ -72,7 +76,6 @@ def p_execute(p):
     '''
     execute : create
     | destroy
-    | draw
     | start
     | append
     | empty
@@ -84,6 +87,8 @@ def p_object(p):
     object : WINDOW
     | GRID
     | SPRITE
+    | CONTROLLER
+    | DRAW
     '''
     p[0] = p[1] #Here we know what type of object is created. Modify later.
 
@@ -99,11 +104,11 @@ def p_destroy(p):
     '''
     p[0] = (p[1], p[2])
 
-def p_draw(p):
-    '''
-    draw : DRAW parameters
-    '''
-    p[0] = (p[1], p[2])
+# def p_draw(p):
+#     '''
+#     draw : DRAW parameters
+#     '''
+#     p[0] = (p[1], p[2])
 
 def p_start(p):
     '''
@@ -177,17 +182,25 @@ def run(p):
                 for x in range(p[2][0]):
                     for y in range(p[2][1]):
                         gb[str(x) + ',' + str(y)] = 'empty'
-                print(gb)
 
             if p[1] == 'Sprite':
-                sprite = Sprite.Sprite(p[2][0], p[2][1], p[2][2])
+                sprite = Sprite.Sprite(p[2][0], p[2][1], p[2][2], 'center')
                 sprite.create()
                 env[p[2][0]] = sprite
 
-        elif p[0] == 'Draw':
-            window = env['Window']
-            draw = Draw.Draw(window, env['Grid'])
-            draw.draw(env[p[1][0]], p[1][1], p[1][2])
+            if p[1] == 'Controller':
+                controller = Controller.Controller(env['Window'], env['Grid'], gb, winPos)
+                controller.draw.drawGrid()
+                env['Controller'] = controller
+
+            if p[1] == 'Draw':
+                controller = env['Controller']
+                controller.drawIfLeftMouseClickedAndNoOverlapping2(env[p[2][0]], env[p[2][1]])
+
+        # elif p[0] == 'Draw':
+        #     window = env['Window']
+        #     draw = Draw.Draw(window, env['Grid'])
+        #     draw.draw(env[p[1][0]], p[1][1], p[1][2])
 
         elif p[0] == 'Add':
             if len(p[2]) == 2:
@@ -200,10 +213,9 @@ def run(p):
             elif len(p[2]) == 4:
                 winPos.append((str(p[2][0][0]) + ',' + str(p[2][0][1]), str(p[2][1][0]) + ',' + str(p[2][1][1]),
                                str(p[2][2][0]) + ',' + str(p[2][2][1]), str(p[2][3][0]) + ',' + str(p[2][3][1])))
-                print(winPos)
 
         elif p[0] == 'Start':
-            env['Window'].create()
+            env['Controller'].start()
 
         elif p[0] == 'Destroy':
             pass
@@ -220,4 +232,8 @@ while True:
         s = input('>> ')
     except EOFError:
         break
-    parser.parse(s)
+    try:
+        parser.parse(s)
+    except Exception:
+        tb.print_exc()
+        #print('TypeError: some command was incorrectly typed.')
