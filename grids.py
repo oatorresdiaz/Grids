@@ -235,5 +235,5 @@ while True:
     try:
         parser.parse(s)
     except Exception:
-        tb.print_exc()
-        #print('TypeError: some command was incorrectly typed.')
+        #tb.print_exc()
+        print('TypeError: some command was incorrectly typed. Try again.')
