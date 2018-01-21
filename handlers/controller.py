@@ -1,7 +1,7 @@
-from tkinter import *
 import handlers.draw as Draw
 import handlers.action as Action
-import rule as Rule
+import handlers.rule as Rule
+
 
 class Controller:
 
