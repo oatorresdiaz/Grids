@@ -1,7 +1,9 @@
+import copy
 
 class Grid:
 
     coord = []
+    sprites = {}
 
     def __init__(self, horSize, verSize):
         self.horSize = horSize
@@ -21,3 +23,9 @@ class Grid:
 
     def getVerticalSize(self):
         return self.verSize
+
+    def clearDictionary(self):
+        coordCopy = copy.copy(self.coord)
+        self.coord.clear()
+        self.create()
+        return coordCopy
