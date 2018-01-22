@@ -2,7 +2,7 @@ from tkinter import *
 import copy
 import handlers.draw as Draw
 import handlers.action as Action
-import rule as Rule
+import handlers.rule as Rule
 import handlers.platformer as Platformer
 import time as Time
 
