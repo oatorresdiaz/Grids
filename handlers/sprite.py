@@ -9,8 +9,8 @@ class Sprite:
     yCoord = 0 #Initial value
     native = True #Describes if the sprite was created before the game began.
 
-    def __init__(self, name, imagePath, width, height, anchor):
-        self.name = name
+    def __init__(self, imagePath, width, height, anchor):
+        #self.name = name
         self.imagePath = imagePath
         self.width = width
         self.height = height
