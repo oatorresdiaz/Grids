@@ -21,6 +21,8 @@ class Controller:
         self.gb = gb
         self.winPos = winPos
         self.rule = Rule.Rule(self.winPos)
+        self.counterLim = grid.horSize * grid.verSize
+        self.turnCount = 0
 
     def start(self):
         self.window.create()
@@ -75,33 +77,86 @@ class Controller:
                 print("Cannot draw here because sprite exists.")
             else:
                 if self.player == 0:
+                    self.turnCount += 1
                     sprite1.setNativeTo(False)
                     self.draw.draw(sprite1, x, y, "center")
                     print(self.grid.coord[y][x])
                     self.action.leftMouseClicked = False
                     self.player = 1
                     self.gb[str(x) + ',' + str(y)] = sprite1.imagePath
+                    if self.rule.winByEquality2(self.gb):
+                        print('Player 1 has won!')
+                        self.turnCount = 0
+                        for x in range(self.grid.horSize):
+                            for y in range(self.grid.verSize):
+                                self.gb[str(x) + ',' + str(y)] = 'empty'
+                        self.doRestart = True
+                        self.window.window.after(3000, self.restart)
                     if self.rule.winByEquality3(self.gb):
                         print('Player 1 has won!')
-                        for x in range(3):
-                            for y in range(3):
+                        self.turnCount = 0
+                        for x in range(self.grid.horSize):
+                            for y in range(self.grid.verSize):
+                                self.gb[str(x) + ',' + str(y)] = 'empty'
+                        self.doRestart = True
+                        self.window.window.after(3000, self.restart)
+                    if self.rule.winByEquality4(self.gb):
+                        print('Player 1 has won!')
+                        self.turnCount = 0
+                        for x in range(self.grid.horSize):
+                            for y in range(self.grid.verSize):
+                                self.gb[str(x) + ',' + str(y)] = 'empty'
+                        self.doRestart = True
+                        self.window.window.after(3000, self.restart)
+                    if self.turnCount == self.counterLim:
+                        print('Draw')
+                        self.turnCount = 0
+                        for x in range(self.grid.horSize):
+                            for y in range(self.grid.verSize):
                                 self.gb[str(x) + ',' + str(y)] = 'empty'
                         self.doRestart = True
                         self.window.window.after(3000, self.restart)
                 else:
+                    self.turnCount += 1
                     sprite2.setNativeTo(False)
                     self.draw.draw(sprite2, x, y, "center")
                     print(self.grid.coord[y][x])
                     self.action.leftMouseClicked = False
                     self.player = 0
                     self.gb[str(x) + ',' + str(y)] = sprite2.imagePath
-                    if self.rule.winByEquality3(self.gb):
+                    if self.rule.winByEquality2(self.gb):
                         print('Player 2 has won!')
-                        for x in range(3):
-                            for y in range(3):
+                        self.turnCount = 0
+                        for x in range(self.grid.horSize):
+                            for y in range(self.grid.verSize):
                                 self.gb[str(x) + ',' + str(y)] = 'empty'
                         self.doRestart = True
                         self.window.window.after(3000, self.restart)
+                    if self.rule.winByEquality3(self.gb):
+                        print('Player 2 has won!')
+                        self.turnCount = 0
+                        for x in range(self.grid.horSize):
+                            for y in range(self.grid.verSize):
+                                self.gb[str(x) + ',' + str(y)] = 'empty'
+                        self.doRestart = True
+                        self.window.window.after(3000, self.restart)
+                    if self.rule.winByEquality4(self.gb):
+                        print('Player 2 has won!')
+                        self.turnCount = 0
+                        for x in range(self.grid.horSize):
+                            for y in range(self.grid.verSize):
+                                self.gb[str(x) + ',' + str(y)] = 'empty'
+                        self.doRestart = True
+                        self.window.window.after(3000, self.restart)
+                    if self.turnCount == self.counterLim:
+                        print('Draw')
+                        self.turnCount = 0
+                        for x in range(self.grid.horSize):
+                            for y in range(self.grid.verSize):
+                                self.gb[str(x) + ',' + str(y)] = 'empty'
+                        self.doRestart = True
+                        self.window.window.after(3000, self.restart)
+                print(self.gb)
         self.window.window.after(50, self.drawIfLeftMouseClickedAndNoOverlapping2, sprite1, sprite2)
 
     def eraseIfLeftMouseClicked(self):
