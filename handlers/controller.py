@@ -54,7 +54,6 @@ class Controller:
             x, y = self.action.getXY()
             sprite.setNativeTo(False)
             self.draw.draw(sprite, x, y, anchor)
-            print(self.grid.coord[y][x])
             self.action.leftMouseClicked = False
         self.window.window.after(50, self.drawIfLeftMouseClicked, sprite, anchor)
 
@@ -66,7 +65,6 @@ class Controller:
             else:
                 sprite.setNativeTo(False)
                 self.draw.draw(sprite, x, y, anchor)
-                print(self.grid.coord[y][x])
             self.action.leftMouseClicked = False
         self.window.window.after(50, self.drawIfLeftMouseClickedAndNoOverlapping, sprite, anchor)
 
@@ -80,7 +78,6 @@ class Controller:
                     self.turnCount += 1
                     sprite1.setNativeTo(False)
                     self.draw.draw(sprite1, x, y, "center")
-                    print(self.grid.coord[y][x])
                     self.action.leftMouseClicked = False
                     self.player = 1
                     self.gb[str(x) + ',' + str(y)] = sprite1.imagePath
@@ -120,7 +117,6 @@ class Controller:
                     self.turnCount += 1
                     sprite2.setNativeTo(False)
                     self.draw.draw(sprite2, x, y, "center")
-                    print(self.grid.coord[y][x])
                     self.action.leftMouseClicked = False
                     self.player = 0
                     self.gb[str(x) + ',' + str(y)] = sprite2.imagePath
@@ -156,7 +152,6 @@ class Controller:
                                 self.gb[str(x) + ',' + str(y)] = 'empty'
                         self.doRestart = True
                         self.window.window.after(3000, self.restart)
-                print(self.gb)
         self.window.window.after(50, self.drawIfLeftMouseClickedAndNoOverlapping2, sprite1, sprite2)
 
     def eraseIfLeftMouseClicked(self):

@@ -11,7 +11,6 @@ import traceback as tb
 
 reserved = {
     'Create' : 'CREATE',
-    'Destroy' : 'DESTROY',
     'Window' : 'WINDOW',
     'Grid' : 'GRID',
     'Sprite' : 'SPRITE',
@@ -75,12 +74,11 @@ def p_error(p):
 def p_execute(p):
     '''
     execute : create
-    | destroy
     | start
     | append
     | empty
     '''
-    print(run(p[1]))
+    run(p[1])
 
 def p_object(p):
     '''
@@ -97,18 +95,6 @@ def p_create(p):
     create : CREATE object parameters
     '''
     p[0] = (p[1], p[2], p[3])
-
-def p_destroy(p):
-    '''
-    destroy : DESTROY object
-    '''
-    p[0] = (p[1], p[2])
-
-# def p_draw(p):
-#     '''
-#     draw : DRAW parameters
-#     '''
-#     p[0] = (p[1], p[2])
 
 def p_start(p):
     '''
@@ -172,7 +158,7 @@ def run(p):
     if type(p) == tuple:
         if p[0] == 'Create':
             if p[1] == 'Window':
-                 window = Window.Window("w1", p[2][0], p[2][1])
+                 window = Window.Window("Grids Game Window", p[2][0], p[2][1])
                  env['Window'] = window
 
             if p[1] == 'Grid':
@@ -217,13 +203,6 @@ def run(p):
         elif p[0] == 'Start':
             env['Controller'].start()
 
-        elif p[0] == 'Destroy':
-            pass
-            # if p[0] not in env:
-            #     return 'Undeclared variable found!'
-            # else:
-            #     env.pop(p[2])
-            #     print(env)
     else:
         return p
 
