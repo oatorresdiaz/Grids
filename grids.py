@@ -191,15 +191,12 @@ def run(p):
         elif p[0] == 'Add':
             if len(p[2]) == 2:
                 winPos.append((str(p[2][0][0]) + ',' + str(p[2][0][1]), str(p[2][1][0]) + ',' + str(p[2][1][1])))
-                print(winPos)
             elif len(p[2]) == 3:
                 winPos.append((str(p[2][0][0]) + ',' + str(p[2][0][1]), str(p[2][1][0]) + ',' + str(p[2][1][1]),
                                str(p[2][2][0]) + ',' + str(p[2][2][1])))
-                print(winPos)
             elif len(p[2]) == 4:
                 winPos.append((str(p[2][0][0]) + ',' + str(p[2][0][1]), str(p[2][1][0]) + ',' + str(p[2][1][1]),
                                str(p[2][2][0]) + ',' + str(p[2][2][1]), str(p[2][3][0]) + ',' + str(p[2][3][1])))
-
         elif p[0] == 'Start':
             env['Controller'].start()
 
