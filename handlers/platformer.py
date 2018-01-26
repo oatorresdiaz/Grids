@@ -5,6 +5,8 @@ class Platformer:
 
     player = None
     gravity = 10
+    a = 0.1
+    isJumping = False
     gravityIsOn = True
     collisionSprites = []
     collisionGraphics = []
@@ -19,7 +21,8 @@ class Platformer:
     def start(self): #TODO: FIX BUG LATER
         try:
             self.moveSpriteIfKeyPressed()
-            self.doGravity()
+            self.jump()
+            #self.doGravity()
         except:
             print("ERROR: Player does not exist.")
 
@@ -40,17 +43,25 @@ class Platformer:
         elif self.action.getKeyPressed() == 'a':
             self.draw.moveSprite(self.player, -10,0)
 
+    def jump(self):
+        if not self.isJumping and self.action.getKeyPressed() == 'w':
+            self.gravity = -10
+            self.isJumping = True
+        else:
+            self.doGravity()
+
     def doGravity(self):
         self.draw.moveSprite(self.player, 0, self.gravity)
         x1, y1, x2, y2 = self.draw.graphic.bbox(self.player.getGraphic())
         overlaps = self.draw.graphic.find_overlapping(x1, y1, x2, y2)
-        print(overlaps)
         for graphic in overlaps:
             if graphic in self.collisionGraphics:
                 self.setGravity(0)
+                self.isJumping = False
                 break
             else:
-                self.setGravity(10)
+                self.gravity = self.gravity + self.a
+                self.setGravity(self.gravity)
 
     def setPlayer(self, sprite):
         self.player = sprite
