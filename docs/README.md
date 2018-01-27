@@ -14,9 +14,15 @@
   
 - A simple and elegant syntax, making the commands easy to learn.
 - An easy-to-use grid-based design.
-- A commanding 'Position-Object Type-Rules' correlation to manage object interactions.
-- Importing of images into the game to use as backgrounds, object sprites, etc. *
-- Importing of sounds to add ambiance. *
-- Each type of game object has their own modifiers to help customize and define them. *
+- Importing of images into the game to use as object sprites.
+- Rules to define game conditions.
 
-## Creation
+## Grids Architecture
+
+1. First and foremost, code is written in Grids. 
+2. This code is then passed to the lexer in the grids.py file, where the code is tokenized. 
+3. After tokenization is successful the parser comes into play (also located in the grids.py file). The parser makes sure the grammar rules are followed and takes the data from the commands. 
+4. That data is used to run the intermediate python code. 
+5. The main component of the intermediate code is the controller.py file which brings everything together.
+
+<a data-flickr-embed="true"  href="https://www.flickr.com/photos/155153101@N04/39924120831/in/dateposted-public/" title="arch"><img src="https://farm5.staticflickr.com/4607/39924120831_d42d81dd3b.jpg" width="411" height="313" alt="arch"></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
