@@ -72,7 +72,10 @@
  
    Start
 
+## Watch the video below to see all the steps executed:'
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/asMcIkwMqhQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 # Documentation
-Learn more about Grids at https://github.com/orlandoecool/Grids/wiki.
+Learn more about Grids [here](https://github.com/orlandoecool/Grids/wiki).
 
