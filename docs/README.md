@@ -21,6 +21,7 @@
 
 <a data-flickr-embed="true"  href="https://www.flickr.com/photos/155153101@N04/39924120831/in/dateposted-public/" title="arch"><img src="https://farm5.staticflickr.com/4607/39924120831_d42d81dd3b.jpg" width="411" height="313" alt="arch"></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
 
+
 1. First and foremost, code is written in Grids. 
 2. This code is then passed to the lexer in the grids.py file, where the code is tokenized. 
 3. After tokenization is successful the parser comes into play (also located in the grids.py file). The parser makes sure the grammar rules are followed and takes the data from the commands. 
